@@ -1,9 +1,28 @@
 {{define "list"}}
 {{with $ctx := .}}
-	<ul>
-	{{range $obj := .Objects}}
-		<li><a href="{{$ctx.Reverser.UpdateObj $obj}}">{{$obj}}</a></li>
+<table class="bordered-table zebra-striped">
+	<thead>
+		<tr>
+			<th>n</th>
+		{{range $header := .Columns}}
+			<th>{{$header}}</th>
+		{{end}}
+		</tr>
+	</thead>
+	<tbody>
+	{{range $n, $value := .Values}}
+		<tr>
+			<td>
+			{{with $obj := index $ctx.Objects $n}}
+			<a href="{{$ctx.Reverser.UpdateObj $obj}}">{{$n}}</a>
+			{{end}}
+			</td>
+		{{range $val := $value}}
+			<td>{{$val}}</td>
+		{{end}}
+		</tr>
 	{{end}}
-	</ul>
+	</tbody>
+</table>
 {{end}}
 {{end}}
