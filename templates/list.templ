@@ -7,29 +7,23 @@
 </div>
 </div>
 <br>
-<table class="bordered-table zebra-striped">
+<table class="zebra-striped condensed-table">
 	<thead>
 		<tr>
 		{{range $header := .Columns}}
 			<th>{{$header}}</th>
 		{{end}}
-		<th>Actions</th>
+		<th width="70em">Actions</th>
 		</tr>
 	</thead>
-	<tbody>
-	{{range $n, $value := .Values}}
-		<tr>
-		{{range $val := $value}}
-			<td>{{$val}}</td>
-		{{end}}
-		<td>
-		{{with $obj := index $ctx.Objects $n}}
-		<a href="{{$ctx.Reverser.UpdateObj $obj}}">edit</a> |
-		<a href="{{$ctx.Reverser.DeleteObj $obj}}">delete</a>
-		{{end}}
-		</tr>
-		</a>
-	{{end}}
+	<tbody>{{range $n, $value := .Values}}
+		<tr>{{range $val := $value}}
+			<td>{{$val}}</td>{{end}}
+			<td>{{with $obj := index $ctx.Objects $n}}
+				<a href="{{$ctx.Reverser.UpdateObj $obj}}">edit</a> |
+				<a href="{{$ctx.Reverser.DeleteObj $obj}}">delete</a>{{end}}
+			</td>
+		</tr>{{end}}
 	</tbody>
 </table>
 {{end}}
