@@ -1,0 +1,12 @@
+{{define "index"}}
+{{with $ctx := .}}
+	{{range $db, $colls := .Managed}}
+	<h2>{{$db}}</h2>
+	<ul>{{range $coll := $colls}}
+		{{with $dbcoll := $ctx.Key $db $coll}}
+		<li><a href="{{$ctx.Reverser.List $dbcoll}}">{{$coll}}</a></li>
+		{{end}}
+	{{end}}</ul>
+	{{end}}
+{{end}}
+{{end}}

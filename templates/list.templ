@@ -1,0 +1,9 @@
+{{define "list"}}
+{{with $ctx := .}}
+	<ul>
+	{{range $obj := .Objects}}
+		<li><a href="{{$ctx.Reverser.UpdateObj $obj}}">{{$obj}}</a></li>
+	{{end}}
+	</ul>
+{{end}}
+{{end}}
