@@ -1,28 +1,37 @@
 {{define "list"}}
+{{template "header" .IndexContext }}
 {{with $ctx := .}}
+<div class="row">
+<div class="span16">
+<a class="btn" href="{{$ctx.Reverser.Create .Collection}}">Create &raquo;</a>
+</div>
+</div>
+<br>
 <table class="bordered-table zebra-striped">
 	<thead>
 		<tr>
-			<th>n</th>
 		{{range $header := .Columns}}
 			<th>{{$header}}</th>
 		{{end}}
+		<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
 	{{range $n, $value := .Values}}
 		<tr>
-			<td>
-			{{with $obj := index $ctx.Objects $n}}
-			<a href="{{$ctx.Reverser.UpdateObj $obj}}">{{$n}}</a>
-			{{end}}
-			</td>
 		{{range $val := $value}}
 			<td>{{$val}}</td>
 		{{end}}
+		<td>
+		{{with $obj := index $ctx.Objects $n}}
+		<a href="{{$ctx.Reverser.UpdateObj $obj}}">edit</a> |
+		<a href="{{$ctx.Reverser.DeleteObj $obj}}">delete</a>
+		{{end}}
 		</tr>
+		</a>
 	{{end}}
 	</tbody>
 </table>
 {{end}}
+{{template "footer"}}
 {{end}}

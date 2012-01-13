@@ -36,7 +36,7 @@ type T2 struct {
 }
 
 func (t T2) GetTemplate() string {
-	return `<span class="errors">{{.Errors.V}}</span>
+	return `<span class="errors">{{.Errors.V.Error}}</span>
 	<input type="text" value="{{.Values.V}}" name="V">
 	<input type="submit">`
 }

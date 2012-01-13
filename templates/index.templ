@@ -1,4 +1,5 @@
 {{define "index"}}
+{{template "header"}}
 {{with $ctx := .}}
 	{{range $db, $colls := .Managed}}
 	<h2>{{$db}}</h2>
@@ -9,4 +10,5 @@
 	{{end}}</ul>
 	{{end}}
 {{end}}
+{{template "footer"}}
 {{end}}

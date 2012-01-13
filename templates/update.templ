@@ -1,4 +1,6 @@
 {{define "update"}}
+{{template "header" .IndexContext }}
+{{with $ctx := .}}
 {{if .Success}}
 <h2>Success!</h2>
 {{end}}
@@ -6,5 +8,7 @@
 {{.Form.ExecuteText}}
 </form>
 
-<a href="{{.Reverser.ListObj .Object}}">List</a>
+<a class="btn" href="{{.Reverser.ListObj .Object}}">Back</a>
+{{template "footer"}}
+{{end}}
 {{end}}
