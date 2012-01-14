@@ -1,12 +1,23 @@
 {{define "delete"}}
 {{template "header" .IndexContext }}
 {{with $ctx := .}}
-{{if .Success}}
-<h2>Success!</h2>
-{{else}}
-<h2>Are you sure?</h2>
-<a class="primary btn" href="?_sure=yes">Delete</a>
+{{if .Error}}
+<div class="alert-message error">
+	<p><strong>Error</strong> {{.Error.Error}}</p>
+</div>
 {{end}}
+
+{{if .Success}}
+	<div class="alert-message success">
+		<p><strong>Success!</strong> Your object has been deleted.</p>
+	</div>
+{{else}}
+	<div class="alert-message warning">
+		<p><strong>Warning</strong> This cannot be undone. Delete the object?</p>
+	</div>
+	<a class="primary btn" href="?_sure=yes">Delete</a>
+{{end}}
+
 <a class="btn" href="{{.Reverser.ListObj .Object}}">Back</a>
 {{template "footer"}}
 {{end}}
