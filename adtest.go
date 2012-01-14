@@ -22,7 +22,7 @@ func Env(key, def string) string {
 }
 
 type Post struct {
-	ID    bson.ObjectId `bson:"_id"`
+	ID    bson.ObjectId `bson:"_id,omitempty"`
 	Title string
 	Body  string
 }
@@ -74,7 +74,9 @@ func main() {
 		Session: session,
 		Prefix:  "/admin",
 	}
-	a.Register(&Post{}, "admin_test.Post", nil)
+	a.Register(&Post{}, "admin_test.Post", &admin.Options{
+		Columns: []string{"Title", "Body"},
+	})
 	a.Register(&T2{}, "admin_test.T2", nil)
 
 	static := http.FileServer(http.Dir(Env("STATIC_DIR", "static")))

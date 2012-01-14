@@ -1,0 +1,13 @@
+{{define "delete"}}
+{{template "header" .IndexContext }}
+{{with $ctx := .}}
+{{if .Success}}
+<h2>Success!</h2>
+{{else}}
+<h2>Are you sure?</h2>
+<a class="primary btn" href="?_sure=yes">Delete</a>
+{{end}}
+<a class="btn" href="{{.Reverser.ListObj .Object}}">Back</a>
+{{template "footer"}}
+{{end}}
+{{end}}
