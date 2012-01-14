@@ -26,6 +26,17 @@
 		</tr>{{end}}
 	</tbody>
 </table>
+<a href="{{$ctx.Pagination.Page 1}}">First</a> |
+{{if $ctx.Pagination.Prev}}<a href="{{$ctx.Pagination.Page $ctx.Pagination.Prev}}">Prev</a> |{{end}}
+{{range $ctx.Pagination.PageList 5}}
+	{{if $ctx.Pagination.IsCurrent .}}
+		{{.}}
+	{{else}}
+		<a href="{{$ctx.Pagination.Page .}}">{{.}}</a>
+	{{end}}
+{{end}}
+{{if $ctx.Pagination.Next}}| <a href="{{$ctx.Pagination.Page $ctx.Pagination.Next}}">Next</a>{{end}}
+| <a href="{{$ctx.Pagination.Page $ctx.Pagination.Pages}}">Last</a>
 {{end}}
 {{template "footer"}}
 {{end}}

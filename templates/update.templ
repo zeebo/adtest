@@ -2,9 +2,15 @@
 {{template "header" .IndexContext }}
 {{with $ctx := .}}
 {{if .Success}}
-<h2>Success!</h2>
+<div class="alert-message success">
+	<p><strong>Success!</strong> Your object has been updated.</p>
+</div>
 {{end}}
-<form method="post" action="{{.Reverser.UpdateObj .Object}}">
+{{if .Error}}
+<div class="alert-message error">
+	<p><strong>Error</strong> {{.Error.Error}}</p>
+</div>
+{{end}}<form method="post" action="{{.Reverser.UpdateObj .Object}}">
 {{.Form.ExecuteText}}
 </form>
 
