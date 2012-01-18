@@ -61,6 +61,17 @@ func Auth(req *http.Request) (resp admin.AuthResponse) {
 	return
 }
 
+type LoggingWrapper struct {
+	Handler http.Handler
+}
+
+func (l *LoggingWrapper) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	now, path := time.Now(), req.URL.RawPath
+	l.Handler.ServeHTTP(w, req)
+	later := time.Now()
+	log.Printf("[%s:%s] %s", req.Method, path, later.Sub(now))
+}
+
 func main() {
 	a := &admin.Admin{
 		Session: session,
@@ -78,7 +89,7 @@ func main() {
 	static := http.FileServer(http.Dir(Env("STATIC_DIR", "static")))
 
 	//setup handlers
-	http.Handle("/admin/", a)
+	http.Handle("/admin/", &LoggingWrapper{a})
 	http.Handle("/static/", http.StripPrefix("/static/", static))
 	//http.Handle("/", http.HandleFunc(blog))
 
