@@ -29,10 +29,13 @@
       <div class="topbar-inner">
         <div class="container-fluid">
           <a class="brand" href="{{ $ctx.Reverser.Index }}">Admin</a>
+          {{if $ctx.Auth}}
+          <p class="pull-right">Logged in as <a href="{{ $ctx.Reverser.Logout }}">{{$ctx.Auth.Username}}</a></p>
+          {{end}}
         </div>
       </div>
     </div>
-{{if .Auth}}
+{{if $ctx.Auth}}
     <div class="container-fluid">
       <div class="sidebar">
         <div class="well">

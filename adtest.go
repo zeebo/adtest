@@ -39,15 +39,11 @@ func Auth(req *http.Request) (resp admin.AuthResponse) {
 	req.ParseForm()
 	username, password := req.Form.Get("Username"), req.Form.Get("Password")
 
-	log.Printf("%q %q", username, password)
-
 	var valid User
 	if err := session.DB("blog").C("User").Find(bson.M{"username": username}).One(&valid); err != nil {
-		resp.Error = err.Error()
+		resp.Error = "Invalid username and/or password. Please try again."
 		return
 	}
-
-	log.Printf("%+v", valid)
 
 	if !valid.ID.Valid() {
 		resp.Error = "Invalid username and/or password. Please try again."
@@ -61,8 +57,6 @@ func Auth(req *http.Request) (resp admin.AuthResponse) {
 	} else {
 		resp.Error = "Invalid username and/or password. Please try again."
 	}
-
-	log.Printf("%+v", resp)
 
 	return
 }
