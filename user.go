@@ -66,7 +66,7 @@ func (u *User) Validate() admin.ValidationErrors {
 
 func (u *User) HashPassword() error {
 	//a simple heuristic at the moment to determine if it's already hashed
-	if u.Password[0] == '$' {
+	if len(u.Password) == 0 || u.Password[0] == '$' {
 		return nil
 	}
 

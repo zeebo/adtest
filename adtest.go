@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/zeebo/admin"
+	"launchpad.net/gobson/bson"
 	"launchpad.net/mgo"
 	"log"
 	"net/http"
@@ -34,10 +35,43 @@ func (t Time) String() string {
 	return time.Unix(0, int64(t)).String()
 }
 
+func Auth(req *http.Request) (resp admin.AuthResponse) {
+	req.ParseForm()
+	username, password := req.Form.Get("Username"), req.Form.Get("Password")
+
+	log.Printf("%q %q", username, password)
+
+	var valid User
+	if err := session.DB("blog").C("User").Find(bson.M{"username": username}).One(&valid); err != nil {
+		resp.Error = err.Error()
+		return
+	}
+
+	log.Printf("%+v", valid)
+
+	if !valid.ID.Valid() {
+		resp.Error = "Invalid username and/or password. Please try again."
+		return
+	}
+
+	if valid.Compare(password) {
+		resp.Passed = true
+		resp.Username = valid.Username
+		resp.Key = valid.ID
+	} else {
+		resp.Error = "Invalid username and/or password. Please try again."
+	}
+
+	log.Printf("%+v", resp)
+
+	return
+}
+
 func main() {
 	a := &admin.Admin{
 		Session: session,
 		Prefix:  "/admin",
+		Auth:    admin.AuthFunc(Auth),
 	}
 	a.Register(&Post{}, "blog.Post", &admin.Options{
 		Columns: []string{"Title", "Body", "Posted", "Updated"},
@@ -45,6 +79,7 @@ func main() {
 	a.Register(&User{}, "blog.User", &admin.Options{
 		Columns: []string{"Username", "Password"},
 	})
+	a.Init()
 
 	static := http.FileServer(http.Dir(Env("STATIC_DIR", "static")))
 
